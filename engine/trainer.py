@@ -33,7 +33,7 @@ def do_train(
     untransform = build_untransform(cfg)
 
     log_period = cfg.SOLVER.LOG_PERIOD
-    checkpoint_period = cfg.SOLVER.CHECKPOINT_PERIOD
+    # checkpoint_period = cfg.SOLVER.CHECKPOINT_PERIOD
     epochs = cfg.SOLVER.MAX_EPOCHS
     device = cfg.MODEL.DEVICE
     output_dir = cfg.OUTPUT_DIR
@@ -43,7 +43,7 @@ def do_train(
     trainer = create_supervised_trainer(model, optimizer, loss_fn, device=device)
     evaluator = create_supervised_evaluator(model, metrics={'mean_iu': Label_Accuracy(cfg.MODEL.NUM_CLASSES),
                                                             'loss': Loss(loss_fn)}, device=device)
-    checkpointer = ModelCheckpoint(output_dir, 'fcn', checkpoint_period, n_saved=10, require_empty=False)
+    # checkpointer = ModelCheckpoint(output_dir, 'fcn', n_saved=10, require_empty=False)
     timer = Timer(average=True)
     writer = SummaryWriter(output_dir + '/board')
 
@@ -51,9 +51,8 @@ def do_train(
     RunningAverage(output_transform=lambda x: x).attach(trainer, 'avg_loss')
 
     # automatically adding handlers via a special `attach` method of `Checkpointer` handler
-    trainer.add_event_handler(Events.EPOCH_COMPLETED, checkpointer, {'model': model.state_dict(),
-                                                                     'optimizer': optimizer.state_dict()})
-
+    # trainer.add_event_handler(Events.EPOCH_COMPLETED, checkpointer, {'model': model.state_dict(),
+    #                                                                  'optimizer': optimizer.state_dict()})
     # automatically adding handlers via a special `attach` method of `Timer` handler
     timer.attach(trainer, start=Events.EPOCH_STARTED, resume=Events.ITERATION_STARTED,
                  pause=Events.ITERATION_COMPLETED, step=Events.ITERATION_COMPLETED)
@@ -131,5 +130,10 @@ def do_train(
         plt.axis("off")
         writer.add_figure('show_result', fig, engine.state.iteration)
 
+    @trainer.on(Events.COMPLETED)
+    def model_save(engine):
+        torch.save(model.state_dict(), cfg.OUTPUT_DIR+"/fcn8s.pth")
+
+    # logger.info(model.state_dict().keys())
     trainer.run(train_loader, max_epochs=epochs)
     writer.close()

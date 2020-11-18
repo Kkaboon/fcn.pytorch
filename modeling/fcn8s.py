@@ -30,7 +30,11 @@ class FCN8s(nn.Module):
         self.score_fr = conv_layer(4096, num_classes, 1)
         self.score_pool3 = conv_layer(256, num_classes, 1)
         self.score_pool4 = conv_layer(512, num_classes, 1)
-
+        
+        # nn.UpsamplingBilinear2d
+        # self.upsample2x = nn.Upsample(scale_factor=2, mode='bilinear',align_corners=False)
+        # self.upsample8x = nn.Upsample(scale_factor=8, mode='bilinear', align_corners=False)
+        # self.upsample32x = nn.Upsample(scale_factor=32,mode='bilinear',align_corners=False)
         self.upscore2 = bilinear_upsampling(num_classes, num_classes, 4, stride=2, bias=False)
         self.upscore8 = bilinear_upsampling(num_classes, num_classes, 16, stride=8, bias=False)
         self.upscore_pool4 = bilinear_upsampling(num_classes, num_classes, 4, stride=2, bias=False)

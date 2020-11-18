@@ -8,11 +8,11 @@ MODEL:
     NAME: ''
 
 DATASETS:
-  ROOT: '/mnt/truenas/scratch/xingyu.liao/DATA/VOCdevkit/VOC2012'
+  ROOT: '/home/panqiao/dhu719/ZYJ/VOC2012'
 
 
 TEST:
-  WEIGHT: '/mnt/truenas/scratch/xingyu.liao/checkpoints/train_fcn8s_atonce/fcn_model_13.pth'
+  WEIGHT: '/home/panqiao/dhu719/ZYJ/checkpoints/train_fcn8s_atonce/fcn8s.pth'
 
-OUTPUT_DIR: "/mnt/truenas/scratch/xingyu.liao/checkpoints/inference_fcn8s_atonce"
+OUTPUT_DIR: "/home/panqiao/dhu719/ZYJ/checkpoints/inference_fcn8s_atonce"
 

@@ -11,6 +11,7 @@ from .fcn16s import FCN16s
 from .fcn32s import FCN32s
 from .fcn8s import FCN8s
 
+# 类字典 value为<class 'modeling.fcn32s.FCN32s'>
 _FCN_META_ARCHITECTURE = {'fcn32s': FCN32s,
                           'fcn16s': FCN16s,
                           'fcn8s': FCN8s}
@@ -18,6 +19,7 @@ _FCN_META_ARCHITECTURE = {'fcn32s': FCN32s,
 
 def build_fcn_model(cfg):
     meta_arch = _FCN_META_ARCHITECTURE[cfg.MODEL.META_ARCHITECTURE]
+    # print(meta_arch)
     model = meta_arch(cfg)
     if cfg.MODEL.BACKBONE.PRETRAINED:
         vgg16 = pretrained_vgg(cfg)

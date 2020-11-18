@@ -40,6 +40,7 @@ class FCN32s(nn.Module):
 
         x = self.score_fr(x)
         x = self.upscore(x)
+        # 特征图的大小为 h+38，与输入图像不一致，因此需要裁剪
         x = x[:, :, 19:19 + h, 19:19 + w].contiguous()
         return x
 

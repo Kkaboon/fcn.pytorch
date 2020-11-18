@@ -20,7 +20,8 @@ from layers.cross_entropy2d import cross_entropy2d
 
 
 def train(cfg):
-    model = build_fcn_model(cfg)
+    device = cfg.MODEL.DEVICE
+    model = build_fcn_model(cfg).to(device)
 
     optimizer = make_optimizer(cfg, model)
 

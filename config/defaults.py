@@ -17,7 +17,7 @@ from yacs.config import CfgNode as CN
 _C = CN()
 
 _C.MODEL = CN()
-_C.MODEL.DEVICE = "cuda"
+_C.MODEL.DEVICE = "cuda:1"
 _C.MODEL.NUM_CLASSES = 21
 
 _C.MODEL.META_ARCHITECTURE = "fcn32s"
@@ -75,7 +75,7 @@ _C.SOLVER.WEIGHT_DECAY_BIAS = 0
 _C.SOLVER.CHECKPOINT_PERIOD = 10
 _C.SOLVER.LOG_PERIOD = 400
 
-# Number of images per batch
+# Number of images per batchwatch -n 0.1 nvidia-smi
 # This is global, so if we have 8 GPUs and IMS_PER_BATCH = 16, each GPU will
 # see 2 images per batch
 _C.SOLVER.IMS_PER_BATCH = 1
